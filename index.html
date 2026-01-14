@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="CAIL - Character AI Lab。キャラクター主導のAIで人類のコミュニケーションを再発明するAI研究所。">
+    <title>CAIL - Character AI Lab | 人類のコミュニケーションを再発明する</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- Particle Canvas Background -->
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- Contact Modal -->
+    <div class="modal-overlay" id="contactModal">
+        <div class="modal-content glass-card">
+            <button class="modal-close" id="modalClose">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                    <path d="M18 6L6 18M6 6l12 12" />
+                </svg>
+            </button>
+            <h2 class="modal-title">お問い合わせ</h2>
+            <p class="modal-subtitle">CAILがあなたのビジョンをどのように実現できるか、ご相談ください。</p>
+            <form class="contact-form" id="contactForm">
+                <div class="form-group">
+                    <label for="name">お名前</label>
+                    <input type="text" id="name" name="name" required placeholder="お名前をご入力ください">
+                </div>
+                <div class="form-group">
+                    <label for="company">会社名</label>
+                    <input type="text" id="company" name="company" placeholder="会社名をご入力ください">
+                </div>
+                <div class="form-group">
+                    <label for="email">メールアドレス</label>
+                    <input type="email" id="email" name="email" required placeholder="example@email.com">
+                </div>
+                <div class="form-group">
+                    <label for="message">メッセージ</label>
+                    <textarea id="message" name="message" rows="4" placeholder="お問い合わせ内容をご入力ください"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary btn-large btn-full">送信</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Header & Navigation -->
+    <header class="header">
+        <div class="container">
+            <a href="#" class="logo">
+                <span class="logo-cail">CAIL</span>
+                <span class="logo-subtext">CHARACTER AI LAB</span>
+            </a>
+            <nav class="nav">
+                <a href="#challenge" class="nav-link">課題</a>
+                <a href="#product" class="nav-link">プロダクト</a>
+                <a href="#technology" class="nav-link">テクノロジー</a>
+                <a href="#team" class="nav-link">チーム</a>
+            </nav>
+            <div class="header-actions">
+                <a href="https://www.apple.com/jp/app-store/" target="_blank" rel="noopener noreferrer"
+                    class="store-badge" aria-label="App Storeでダウンロード">
+                    <svg viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="0.5" y="0.5" width="119" height="39" rx="5.5" stroke="currentColor" />
+                        <path
+                            d="M24.5 20.3c0-3.1 2.5-4.6 2.6-4.7-1.4-2.1-3.6-2.4-4.4-2.4-1.9-.2-3.6 1.1-4.6 1.1-.9 0-2.4-1.1-4-1.1-2 0-3.9 1.2-5 3-2.1 3.7-.5 9.1 1.5 12.1 1 1.5 2.2 3.1 3.8 3 1.5-.1 2.1-1 3.9-1s2.4 1 4 1c1.6 0 2.7-1.5 3.7-2.9 1.2-1.7 1.6-3.3 1.7-3.4-.1-.1-3.2-1.2-3.2-4.7z"
+                            fill="currentColor" />
+                        <path
+                            d="M21.5 11.1c.8-1 1.4-2.4 1.2-3.8-1.2.1-2.7.8-3.5 1.8-.8.9-1.5 2.3-1.3 3.7 1.4.1 2.8-.7 3.6-1.7z"
+                            fill="currentColor" />
+                        <text x="38" y="16" fill="currentColor" font-size="8" font-family="Inter">Download on the</text>
+                        <text x="38" y="28" fill="currentColor" font-size="12" font-weight="600" font-family="Inter">App
+                            Store</text>
+                    </svg>
+                </a>
+                <a href="https://play.google.com/store/games?hl=ja&pli=1" target="_blank" rel="noopener noreferrer"
+                    class="store-badge" aria-label="Google Playで入手">
+                    <svg viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="0.5" y="0.5" width="119" height="39" rx="5.5" stroke="currentColor" />
+                        <path d="M14 7.5l12 12.5-12 12.5V7.5z" fill="currentColor" />
+                        <path d="M14 7.5l15 10-3 3-12-13z" fill="currentColor" opacity="0.8" />
+                        <path d="M14 32.5l12-13 3 3-15 10z" fill="currentColor" opacity="0.6" />
+                        <text x="38" y="16" fill="currentColor" font-size="8" font-family="Inter">GET IT ON</text>
+                        <text x="38" y="28" fill="currentColor" font-size="12" font-weight="600"
+                            font-family="Inter">Google Play</text>
+                    </svg>
+                </a>
+                <button class="btn btn-primary contact-btn" id="headerContactBtn">お問い合わせ</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="container hero-grid">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    <span class="hero-title-line">人類の</span>
+                    <span class="hero-title-line gradient-text">コミュニケーションを再発明する。</span>
+                </h1>
+                <p class="hero-subtitle">独自開発の「感情LLM」と世界レベルの「体験設計」を融合。AIキャラクターを通じて、次世代のソーシャル・インフラを構築するAI研究所。</p>
+                <div class="hero-cta">
+                    <a href="#product" class="btn btn-primary btn-large">Moyamoyaを体験する</a>
+                    <button class="btn btn-secondary btn-large hero-cta-secondary contact-btn"
+                        id="heroContactBtn">お問い合わせ</button>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <img src="images/hero_moyamoya.png" alt="Moyamoya AIコンパニオン" class="hero-image">
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: The Challenge -->
+    <section class="challenge" id="challenge">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">THE PROBLEM</span>
+                <h2 class="section-title">なぜ、従来のAIは定着しないのか？</h2>
+            </div>
+            <div class="challenge-grid">
+                <div class="glass-card">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                            <path
+                                d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
+                        </svg>
+                    </div>
+                    <h3 class="card-title">10-14%という低い継続率</h3>
+                    <p class="card-text">多くのAIアプリは数週間でユーザーを失います。一過性の新しさが消えた後、長期的な絆を築くための情緒的体験が欠けているからです。</p>
+                </div>
+                <div class="glass-card">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                            <rect x="3" y="3" width="18" height="18" rx="2" />
+                            <path d="M9 9h6M9 15h6" />
+                        </svg>
+                    </div>
+                    <h3 class="card-title">80%以上のユーザーが感じる「壁」</h3>
+                    <p class="card-text">ユーザーは何を話せばいいか分かりません。空白のプロンプト欄は不安を生み、人間らしい自然な交流を阻害しています。</p>
+                </div>
+                <div class="glass-card">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                            <circle cx="12" cy="12" r="10" />
+                            <path d="M12 6v6l4 2" />
+                        </svg>
+                    </div>
+                    <h3 class="card-title">眠っている可能性</h3>
+                    <p class="card-text">現在のAIキャラクターは受動的です。ユーザーを理解し、ニーズを先取りして能動的に働きかける存在が求められています。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Product (Solution) -->
+    <section class="solution" id="product">
+        <div class="container">
+            <div class="solution-grid">
+                <div class="solution-content">
+                    <span class="section-label">OUR SOLUTION</span>
+                    <h2 class="solution-title">プロンプトを必要としない、<span class="gradient-text">世界初の</span>AIインターフェース。
+                    </h2>
+                    <div class="solution-features">
+                        <div class="solution-feature">
+                            <div class="feature-icon">
+                                <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 2l2.4 7.4h7.6l-6 4.6 2.3 7-6.3-4.6-6.3 4.6 2.3-7-6-4.6h7.6z" />
+                                </svg>
+                            </div>
+                            <div class="feature-text">
+                                <h3>直感的な非テキストUX</h3>
+                                <p>"Moyamoya" は、文字入力の負担を排除。直感的なインターフェースで、誰でも簡単にAIと繋がれます。</p>
+                            </div>
+                        </div>
+                        <div class="solution-feature">
+                            <div class="feature-icon">
+                                <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 2l2.4 7.4h7.6l-6 4.6 2.3 7-6.3-4.6-6.3 4.6 2.3-7-6-4.6h7.6z" />
+                                </svg>
+                            </div>
+                            <div class="feature-text">
+                                <h3>「道具」から「パートナー」へ</h3>
+                                <p>AIを「論理的なツール」から「共感し合えるパートナー」へと進化させ、深い情緒的エンゲージメントを創出します。</p>
+                            </div>
+                        </div>
+                        <div class="solution-feature">
+                            <div class="feature-icon">
+                                <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 2l2.4 7.4h7.6l-6 4.6 2.3 7-6.3-4.6-6.3 4.6 2.3-7-6-4.6h7.6z" />
+                                </svg>
+                            </div>
+                            <div class="feature-text">
+                                <h3>持続可能な高い継続性</h3>
+                                <p>真の信頼関係を築くことで、ユーザーが日常的に戻ってくる環境を作り、持続的な成長を実現します。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="solution-visual">
+                    <div class="iphone-mockup-container">
+                        <img src="images/iphone_mockup_3d.png" loading="lazy" alt="iPhone上のMoyamoyaアプリ"
+                            class="iphone-mockup-img">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: 3 Pillars -->
+    <section class="pillars" id="pillars">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">CORE EXPERIENCE</span>
+                <h2 class="section-title">キャラクターゲーム × SNS × AI の融合</h2>
+            </div>
+            <div class="pillars-grid">
+                <div class="pillar-card">
+                    <div class="pillar-visual">
+                        <img src="images/pillar_presence.png" loading="lazy" alt="実在感 - Moyamoyaとの暮らし">
+                    </div>
+                    <h3 class="pillar-title">実在感</h3>
+                    <p class="pillar-text">あなたの世界に溶け込むMoyamoya。生活リズムに反応し、真のパートナーシップを感じさせます。</p>
+                </div>
+                <div class="pillar-card">
+                    <div class="pillar-visual">
+                        <img src="images/pillar_personalization.png" loading="lazy" alt="パーソナライズ - Moyamoyaをカスタマイズ">
+                    </div>
+                    <h3 class="pillar-title">パーソナライズ</h3>
+                    <p class="pillar-text">性格、外見、声まで、あなた好みに。世界に一つだけのMoyamoyaを育てることができます。</p>
+                </div>
+                <div class="pillar-card">
+                    <div class="pillar-visual">
+                        <img src="images/pillar_sociality.webp" loading="lazy" alt="ソーシャル性 - 他者と繋がる">
+                    </div>
+                    <h3 class="pillar-title">ソーシャル性</h3>
+                    <p class="pillar-text">友人のMoyamoyaを訪ねたり、思い出を共有したり。AIキャラクターを通じた新しいコミュニティを構築します。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 5: Blue Ocean Strategy -->
+    <section class="blueocean" id="blueocean">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">MARKET POSITION</span>
+                <h2 class="section-title">15兆ドルのブルーオーシャンを独占する。</h2>
+            </div>
+            <div class="blueocean-content">
+                <div class="venn-diagram">
+                    <div class="venn-circle venn-ai">
+                        <span>AI技術</span>
+                    </div>
+                    <div class="venn-circle venn-character">
+                        <span>キャラクターIP</span>
+                    </div>
+                    <div class="venn-circle venn-social">
+                        <span>ソーシャル・コミュニケーション</span>
+                    </div>
+                    <div class="venn-center">
+                        <span>独自の<br>市場<br>ポジション</span>
+                    </div>
+                </div>
+                <p class="blueocean-text">
+                    CAILは、AI技術、キャラクターIP、そしてソーシャル・コミュニケーションの唯一無二の交差点に位置しています。これは、実用性のみを追求するグローバルな競合他社が踏み込めていない巨大な未開拓領域です。私たちは、未来のコミュニケーション・インフラを構築しています。
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 6: Market Landscape (Bento Grid) -->
+    <section class="landscape" id="landscape">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">MARKET OPPORTUNITY</span>
+                <h2 class="section-title">戦略的空白地帯の特定</h2>
+            </div>
+            <div class="strategic-gap-grid">
+                <div class="gap-card gap-card-limitation">
+                    <div class="gap-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                            <rect x="4" y="4" width="16" height="16" rx="2" />
+                            <path d="M9 9h6M9 12h6M9 15h4" />
+                        </svg>
+                    </div>
+                    <h3 class="gap-title">効率重視AI</h3>
+                    <p class="gap-text">効率重視で、絆が生まれにくい。論理処理のみでは、長期的な情緒的エンゲージメントを築くことができません。</p>
+                </div>
+                <div class="gap-card gap-card-limitation">
+                    <div class="gap-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                            <circle cx="12" cy="8" r="5" />
+                            <path d="M3 21v-2a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4v2" />
+                        </svg>
+                    </div>
+                    <h3 class="gap-title">静的キャラクターIP</h3>
+                    <p class="gap-text">予測可能で進化がない。自律的な知能がなければ、交流はパターン化し、飽きが生じてしまいます。</p>
+                </div>
+                <div class="gap-card gap-card-limitation">
+                    <div class="gap-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                            <circle cx="9" cy="7" r="4" />
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
+                        </svg>
+                    </div>
+                    <h3 class="gap-title">孤立したソーシャルツール</h3>
+                    <p class="gap-text">繋がりは広いが、親密度が低い。現在のインフラは、真のデジタル・コンパニオンに必要な深い存在感を優先していません。</p>
+                </div>
+                <div class="gap-card gap-card-featured">
+                    <div class="featured-glow"></div>
+                    <div class="gap-icon gap-icon-featured">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                            <polygon
+                                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                        </svg>
+                    </div>
+                    <h3 class="gap-title gap-title-featured">未開拓のフロンティア</h3>
+                    <p class="gap-text gap-text-featured">
+                        CAILは、AI・キャラクター・ソーシャルを統合した唯一のエコシステムを構築。実用性重視の他社が手を付けていない巨大市場を牽引します。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 7: Growth Engine (Flywheel) -->
+    <section class="growth" id="growth">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">BUSINESS MODEL</span>
+                <h2 class="section-title">成長を加速させるデータ・フライホイール</h2>
+                <p class="section-subtitle">
+                    ユーザー体験とCAIL独自のデータ資産が、AIの進化を加速させる循環構造。戦略的パートナーシップを通じて、Moyamoyaの感情知能を自律的に洗練させます。</p>
+            </div>
+            <div class="flywheel-partners-layout">
+                <div class="flywheel-container">
+                    <div class="flywheel">
+                        <div class="flywheel-center">
+                            <img src="images/dualcore_moyamoya.png" loading="lazy" alt="Moyamoyaコア"
+                                class="flywheel-moya">
+                            <span class="flywheel-label">より賢いAI</span>
+                        </div>
+                        <div class="flywheel-node flywheel-node-1">
+                            <div class="flywheel-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                                    <circle cx="9" cy="7" r="4" />
+                                    <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                                    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                                </svg>
+                            </div>
+                            <span>ユーザーエンゲージメント</span>
+                            <p>日々の交流が習慣を形成</p>
+                        </div>
+                        <div class="flywheel-arrow flywheel-arrow-1"></div>
+                        <div class="flywheel-node flywheel-node-2" id="dataAccumulationNode">
+                            <div class="flywheel-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                                    <polyline points="17 8 12 3 7 8" />
+                                    <line x1="12" y1="3" x2="12" y2="15" />
+                                </svg>
+                            </div>
+                            <span>データ蓄積</span>
+                            <p>戦略的パートナーシップ</p>
+                        </div>
+                        <div class="flywheel-arrow flywheel-arrow-2"></div>
+                        <div class="flywheel-node flywheel-node-3">
+                            <div class="flywheel-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                                    <polygon
+                                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                                </svg>
+                            </div>
+                            <span>AI強化</span>
+                            <p>モデルが学習・改善</p>
+                        </div>
+                        <div class="flywheel-arrow flywheel-arrow-3"></div>
+                        <div class="flywheel-node flywheel-node-4">
+                            <div class="flywheel-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                                    <path
+                                        d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                                </svg>
+                            </div>
+                            <span>より深い絆</span>
+                            <p>情緒的継続率の向上</p>
+                        </div>
+                        <div class="flywheel-arrow flywheel-arrow-4"></div>
+                    </div>
+                </div>
+                <div class="strategic-partners">
+                    <div class="partner-connection-line"></div>
+                    <h3 class="partners-subtitle">戦略的パートナーシップ資産</h3>
+                    <div class="partners-grid">
+                        <div class="partner-item">
+                            <div class="partner-logo partner-docomo">
+                                <img src="images/logo_docomo.png" loading="lazy" alt="NTT docomo">
+                            </div>
+                            <div class="partner-badge">
+                                <span class="badge-value">数千万規模</span>
+                                <span class="badge-label">潜在リーチ</span>
+                                <span class="badge-desc">インフラを活用した接点</span>
+                            </div>
+                        </div>
+                        <div class="partner-item">
+                            <div class="partner-logo partner-with">
+                                <img src="images/logo_with.png" loading="lazy" alt="with">
+                            </div>
+                            <div class="partner-badge">
+                                <span class="badge-value">100万人以上のMAU</span>
+                                <span class="badge-label">月間アクティブユーザー</span>
+                                <span class="badge-desc">国内屈指のサービスでの実証済み実績</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 8: Dual-Core Architecture -->
+    <section class="technology" id="technology">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">UNDER THE HOOD</span>
+                <h2 class="section-title">デュアルコア・インテリジェンス（二重知能）</h2>
+                <p class="section-intro">
+                    真のコンパニオンシップには、深い論理と真の共鳴の両方が必要です。私たちのアーキテクチャは、グローバルな知識とCAIL独自の感情エンジンをシームレスに融合し、深く考え、深く感じるAIを実現します。
+                </p>
+            </div>
+            <div class="dualcore-visual">
+                <div class="brain brain-left">
+                    <div class="brain-icon">
+                        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1">
+                            <circle cx="24" cy="24" r="20" />
+                            <path d="M16 24c0-4.4 3.6-8 8-8s8 3.6 8 8" />
+                            <path d="M12 24h4M32 24h4M24 12v4M24 32v4" />
+                        </svg>
+                    </div>
+                    <h3 class="brain-title">感情脳</h3>
+                    <span class="brain-badge">CAIL独自開発LLM</span>
+                    <p class="brain-text">反射的で共感豊かな、血の通った対話を実現。CAILの感情知能ラボが独自に開発した、真のつながりを生み出すエンジンです。</p>
+                    <div class="synaptic-pulse pulse-to-center pulse-neon"></div>
+                </div>
+                <div class="moyamoya-center">
+                    <div class="iridescent-glow"></div>
+                    <img src="images/dualcore_moyamoya.png" loading="lazy" alt="Moyamoyaコア">
+                </div>
+                <div class="brain brain-right">
+                    <div class="brain-icon">
+                        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1">
+                            <rect x="8" y="8" width="32" height="32" rx="4" />
+                            <path d="M16 20h16M16 28h16M20 16v16M28 16v16" />
+                        </svg>
+                    </div>
+                    <h3 class="brain-title">理性脳</h3>
+                    <span class="brain-badge brain-badge-alt">公開LLMを活用</span>
+                    <p class="brain-text">高度な論理推論と、膨大な知識処理を担当。世界最先端の公開モデルを活用し、複雑なタスクに対応します。</p>
+                    <div class="synaptic-pulse pulse-to-center pulse-purple"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 9: Team -->
+    <section class="team" id="team">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">THE CREATORS</span>
+                <h2 class="section-title">ヒットメーカーたちが創る</h2>
+            </div>
+            <div class="team-grid">
+                <div class="team-card">
+                    <div class="team-avatar">
+                        <img src="images/team_producer.webp" loading="lazy" alt="銭 錕">
+                    </div>
+                    <h3 class="team-name">銭 錕</h3>
+                    <p class="team-role">General Producer</p>
+                    <p class="team-bio">会員数1,000万人超の「with」創業者。ソーシャルアルゴリズム設計の第一人者。</p>
+                </div>
+                <div class="team-card">
+                    <div class="team-avatar">
+                        <img src="images/team_tech.webp" loading="lazy" alt="玉樹 真一郎">
+                    </div>
+                    <h3 class="team-name">玉樹 真一郎</h3>
+                    <p class="team-role">Chief Experience Officer</p>
+                    <p class="team-bio">元任天堂。累計1億台超「Wii」の企画・体験設計を担当。著書『ついやってしまう体験のつくりかた』。</p>
+                </div>
+                <div class="team-card">
+                    <div class="team-avatar">
+                        <img src="images/team_design.webp" loading="lazy" alt="渡辺 皇士">
+                    </div>
+                    <h3 class="team-name">渡辺 皇士</h3>
+                    <p class="team-role">Chief Design Officer</p>
+                    <p class="team-bio">アートディレクター。「ウマ娘」「スマブラ」など、数々の世界的ヒット作を担当。</p>
+                </div>
+                <div class="team-card">
+                    <div class="team-avatar">
+                        <img src="images/team_ai.webp" loading="lazy" alt="西尾 聡朗">
+                    </div>
+                    <h3 class="team-name">西尾 聡朗</h3>
+                    <p class="team-role">Head of AI Research</p>
+                    <p class="team-bio">AI技術統括。rinna株式会社出身。AIキャラクター開発の先駆者であり、感情LLMのアーキテクト。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Footer -->
+    <footer class="footer" id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="#" class="logo footer-logo">
+                        <span class="logo-cail">CAIL</span>
+                        <span class="logo-subtext">CHARACTER AI LAB</span>
+                    </a>
+                </div>
+                <div class="footer-links">
+                    <a href="privacy-policy.html" class="footer-link">プライバシーポリシー</a>
+                    <a href="terms-of-service.html" class="footer-link">利用規約</a>
+                    <button class="footer-link contact-btn" id="footerContactBtn">お問い合わせ</button>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 CAIL Inc. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="particles.js"></script>
+    <script>
+        // Contact Modal Logic
+        const modal = document.getElementById('contactModal');
+        const headerBtn = document.getElementById('headerContactBtn');
+        const heroBtn = document.getElementById('heroContactBtn');
+        const footerBtn = document.getElementById('footerContactBtn');
+        const closeBtn = document.getElementById('modalClose');
+        const form = document.getElementById('contactForm');
+
+        function openModal() {
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        headerBtn.addEventListener('click', openModal);
+        heroBtn.addEventListener('click', openModal);
+        footerBtn.addEventListener('click', openModal);
+        closeBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const company = document.getElementById('company').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+
+            const body = `Name: ${name}%0D%0ACompany: ${company}%0D%0AEmail: ${email}%0D%0A%0D%0AMessage:%0D%0A${encodeURIComponent(message)}`;
+            const subject = encodeURIComponent('コーポレートサイトからのお問い合わせ');
+
+            window.location.href = `mailto:info@cail.inc?subject=${subject}&body=${body}`;
+            closeModal();
+        });
+    </script>
+</body>
+
+</html>
