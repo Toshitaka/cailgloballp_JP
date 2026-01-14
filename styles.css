@@ -794,6 +794,55 @@ section {
     line-height: 1.8;
 }
 
+/* Venn Diagram Badges */
+.venn-badge {
+    position: absolute;
+    background: rgba(15, 23, 42, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-primary);
+    text-align: center;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    z-index: 5;
+    white-space: nowrap;
+}
+
+.venn-badge small {
+    display: block;
+    font-size: 9px;
+    font-weight: 400;
+    color: var(--text-secondary);
+    margin-top: 2px;
+    letter-spacing: 0.02em;
+}
+
+.venn-badge-ai-char {
+    top: -60px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-color: rgba(0, 242, 255, 0.4);
+}
+
+.venn-badge-char-comm {
+    bottom: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-color: rgba(124, 58, 237, 0.4);
+}
+
+.venn-badge-comm-ai {
+    bottom: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-color: rgba(157, 78, 221, 0.4);
+}
+
+
 /* ===================================
    Market Landscape - Bento Grid
    =================================== */
